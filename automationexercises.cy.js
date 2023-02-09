@@ -13,11 +13,41 @@ describe("Automation Exercises", ()=>{
     })
 
     it("TC1: Registrar usuario", ()=>{
-        let usuario = 'Ivan Moreno';
+        registrarUsuario();
+
+        cy.get("a[href='/delete_account']").click();
+        cy.get("h2[data-qa='account-deleted']").should("be.visible");
+        cy.get("a[data-qa='continue-button']").click();
+    })
+
+    it('TC2: Logear usuario con email y password correctos', ()=>{
+        registrarUsuario();
+        //cy.xpath("//*[contains(text(), 'Login to your account')]").should("be.visible");
+        //cy.get("input[data-qa='login-email']").type("alan@hotmail.com");
+        //cy.get("input[data-qa='login-password']").type("12345");
+        //cy.get("button[data-qa='login-button']").click();
+        //cy.xpath("//*[contains(text(), ' Logged in as ')]").should("be.visible");
+        cy.get("a[href='/delete_account']").click();
+        cy.get("h2[data-qa='account-deleted']").should("be.visible");
+    })
+
+    it.only('TC3: Logear usuario con email y password incorrectos', ()=>{
+        registrarUsuario();
+        cy.xpath("//*[contains(text(), ' Logout')]").click();
+        cy.get("a[href='/login']").click();
+        cy.xpath("//*[contains(text(), 'Login to your account')]").should("be.visible");
+        cy.get("input[data-qa='login-email']").type("alann@hotmail.com");
+        cy.get("input[data-qa='login-password']").type("12345");
+        cy.get("button[data-qa='login-button']").click();
+        cy.xpath("//*[contains(text(), 'Your email or password is incorrect!')]").should("be.visible");
+    })
+
+    function registrarUsuario(){
+        let usuario = 'Alan Lorenzo';
 
         cy.xpath("//*[contains(text(), 'New User Signup!')]").should("be.visible");
         cy.get("input[data-qa='signup-name']").type(usuario);
-        cy.get("input[data-qa='signup-email']").type("ivanmoreno@yahoo.com.ar");
+        cy.get("input[data-qa='signup-email']").type("alan@hotmail.com");
         cy.get("button[data-qa='signup-button']").click();
         cy.xpath("//*[contains(text(), 'Enter Account Information')]").should("be.visible");
         cy.get("#id_gender1").click();
@@ -42,18 +72,5 @@ describe("Automation Exercises", ()=>{
         cy.xpath("//*[contains(text(), 'Account Created!')]").should("be.visible");
         cy.get("a[data-qa='continue-button']").click();
         cy.xpath("//*[contains(text(), ' Logged in as ')]").should("be.visible");
-        cy.get("a[href='/delete_account']").click();
-        cy.get("h2[data-qa='account-deleted']").should("be.visible");
-        cy.get("a[data-qa='continue-button']").click();
-    })
-
-    it.only('TC2: Logear usuario con email y password correctos', ()=>{
-        cy.xpath("//*[contains(text(), 'Login to your account')]").should("be.visible");
-        cy.get("input[data-qa='login-email']").type("alan@hotmail.com");
-        cy.get("input[data-qa='login-password']").type("12345");
-        cy.get("button[data-qa='login-button']").click();
-        cy.xpath("//*[contains(text(), ' Logged in as ')]").should("be.visible");
-        cy.get("a[href='/delete_account']").click();
-        cy.get("h2[data-qa='account-deleted']").should("be.visible");
-    })
+    }
 })
