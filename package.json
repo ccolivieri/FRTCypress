@@ -1,0 +1,28 @@
+{
+  "name": "curso-cypress-udemy-frt",
+  "version": "1.0.0",
+  "description": "Práctica del Cypress",
+  "main": "automationexercises.cy.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccolivieri/FRTCypress.git"
+  },
+  "keywords": [
+    "e2e",
+    "automation",
+    "framework",
+    "cypress"
+  ],
+  "author": "colivieri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ccolivieri/FRTCypress/issues"
+  },
+  "homepage": "https://github.com/ccolivieri/FRTCypress#readme",
+  "devDependencies": {
+    "cypress": "^12.6.0"
+  }
+}
