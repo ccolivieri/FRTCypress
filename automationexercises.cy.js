@@ -1,3 +1,5 @@
+import 'cypress-file-upload';
+
 require('cypress-xpath');
 
 describe("Automation Exercises", ()=>{
@@ -6,8 +8,8 @@ describe("Automation Exercises", ()=>{
         cy.visit("https://automationexercise.com/");
         cy.title().should("eq", "Automation Exercise");
         cy.xpath("//*[contains(text(), 'Home')]").should("be.visible");
-        cy.get("a[href='/login']").click();
-        cy.xpath("//*[contains(text(), 'New User Signup!')]").should("be.visible");
+        //cy.get("a[href='/login']").click();
+        //cy.xpath("//*[contains(text(), 'New User Signup!')]").should("be.visible");
 
         Cypress.on("uncaught:exception", (err, runnable)=>{
             return false;
@@ -49,7 +51,7 @@ describe("Automation Exercises", ()=>{
         cy.xpath("//*[contains(text(), 'Login to your account')]").should("be.visible");
     })
 
-    it.only('TC5: Registrar usuario con un email ya registrado', ()=>{
+    it('TC5: Registrar usuario con un email ya registrado', ()=>{
         registrarUsuario("Alan Lorenzo", "alanl@hotmail.com");
         cy.xpath("//*[contains(text(), ' Logout')]").click();
         cy.xpath("//*[contains(text(), 'Login to your account')]").should("be.visible");
@@ -58,6 +60,45 @@ describe("Automation Exercises", ()=>{
         cy.get("input[data-qa='signup-email']").type("alanl@hotmail.com");
         cy.get("button[data-qa='signup-button']").click();
         cy.xpath("//*[contains(text(), 'Email Address already exist!')]").should("be.visible");
+    })
+
+    it('TC6: Formumario Contact Us', ()=>{
+        const archivo = 'solicitudes.txt';
+
+        cy.get("i[class='fa fa-envelope']").click();
+        cy.xpath("//*[contains(text(), 'Get In Touch')]").should("be.visible");
+        cy.get("Input[data-qa='name']").type("Viviana Lupa");
+        cy.get("Input[data-qa='email']").type("vivi_lupa@gmail.com");
+        cy.get("Input[data-qa='subject']").type("I have a question about a product");
+        cy.get("textarea[data-qa='message']").type("Why the product is too expensive?");
+        cy.get("input[name='upload_file']").attachFile(archivo);
+        cy.get("input[name='submit']").click();
+        cy.get("div[class='status alert alert-success']").should("be.visible");
+        cy.get("i[class='fa fa-angle-double-left']").click();
+        cy.xpath("//*[contains(text(), 'Home')]").should("be.visible");
+    })
+
+    it('TC7: Verificar la página de Test Cases', ()=>{
+        cy.xpath("//a[contains(text(), 'Test Cases')]").click();
+        cy.xpath("//h2[contains(@class, 'title text-center')]").should("be.visible");
+    })
+
+    it('TC8: Verificar la pagina Todos los Productos y detalle de producto', ()=>{
+        cy.xpath("//a[contains(text(), ' Products')]").click();
+        cy.xpath("//h2[contains(@class, 'title text-center')]").should("be.visible");
+        cy.xpath("//div[contains(@class, 'features_items')]").should("be.visible");
+        cy.get("a[href='/product_details/1']").click();
+        cy.xpath("//h2[contains(text(), 'Blue Top')]").should("be.visible");
+        cy.xpath("//p[contains(text(), 'Category')]").should("be.visible");
+        cy.xpath("//span[contains(text(), 'Rs.')]").should("be.visible");
+        cy.xpath("//b[contains(text(), 'Availability:')]").should("be.visible");
+        cy.xpath("//b[contains(text(), 'Condition:')]").should("be.visible");
+        cy.xpath("//b[contains(text(), 'Brand:')]").should("be.visible");
+    })
+
+    it.only('TC9: Buscar un producto', ()=>{
+        cy.xpath("//a[contains(text(), ' Products')]").click();
+        
     })
 
     function registrarUsuario(usuario, email){
