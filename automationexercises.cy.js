@@ -7,7 +7,7 @@ describe("Automation Exercises", ()=>{
     beforeEach(()=>{
         cy.visit("https://automationexercise.com/");
         cy.title().should("eq", "Automation Exercise");
-        cy.xpath("//*[contains(text(), 'Home')]").should("be.visible");
+        //cy.xpath("//*[contains(text(), 'Home')]").should("be.visible");
         //cy.get("a[href='/login']").click();
         //cy.xpath("//*[contains(text(), 'New User Signup!')]").should("be.visible");
 
@@ -96,9 +96,18 @@ describe("Automation Exercises", ()=>{
         cy.xpath("//b[contains(text(), 'Brand:')]").should("be.visible");
     })
 
-    it.only('TC9: Buscar un producto', ()=>{
+    it('TC9: Buscar un producto', ()=>{
         cy.xpath("//a[contains(text(), ' Products')]").click();
-        
+        cy.get("h2[class='title text-center']").should("be.visible");
+        cy.get("#search_product").type("Women");
+        cy.get("i[class='fa fa-search']").click();
+        cy.xpath("//*[contains(text(), 'Searched Products')]").should("be.visible");
+        cy.get("div[class='features_items']").should("have.length", 1);
+    })
+
+    it.only('TC10: Verificar suscripción en la página Home', ()=>{
+        cy.xpath("//*[contains(text(), 'Home')]").should("be.visible");
+        //cy.xpath("//h2[contains(text(),'Features Items')]").type('{pagedown}');
     })
 
     function registrarUsuario(usuario, email){
