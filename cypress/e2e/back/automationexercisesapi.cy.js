@@ -1,3 +1,5 @@
+const { expect } = require("chai");
+
 describe("Automation Exercises", ()=>{
 
     beforeEach(()=>{
@@ -13,6 +15,9 @@ describe("Automation Exercises", ()=>{
             url:'https://automationexercise.com/api/productsList'
         }).then((respuesta) =>{
             expect(respuesta.status).to.eq(200);
+            let datos = JSON.parse(JSON.stringify(respuesta.body));
+            expect(datos.products[1].name).has.property("name", "Blue Top");
+            //expect(datos.products[1].category[1].usertype.usertype).has.property("usertype", "Women");
         });
     })
 })
